@@ -19,3 +19,4 @@ Penjelasannya:
 Jadi, keseluruhan string itu berarti aplikasi mencoba konek ke broker AMQP lokal, memakai kredensial username `guest` dan password `guest`.
 
 ![Slow Subscriber](image.png)
+Berdasarkan sceenshot di atas, queued message graphnya meningkat ke 6 secara sesaat sebelum kembali ke 0. Hal ini menunjukan, di satu momen tersebut, RabbitMQ menerima lebih banyak message dari publisher lebih cepat daripada kecepatan subscriber memprosesnya. Namun, setelah subscriber memproses messagenya, queuenya kembali menjadi empty.
