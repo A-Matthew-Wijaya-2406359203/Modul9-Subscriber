@@ -17,3 +17,5 @@ Penjelasannya:
   - **5672** adalah port default AMQP (port standar yang dipakai RabbitMQ untuk koneksi AMQP non-TLS).
 
 Jadi, keseluruhan string itu berarti aplikasi mencoba konek ke broker AMQP lokal, memakai kredensial username `guest` dan password `guest`.
+
+![Slow Subscriber](image.png)
