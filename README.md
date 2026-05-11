@@ -44,3 +44,14 @@ Loop ini memang membuat program tetap berjalan, tetapi kurang efisien karena CPU
 Kedua, kode masih menggunakan .unwrap() saat membuat listener. Cara ini sederhana, tetapi jika RabbitMQ belum berjalan atau koneksi gagal, program akan langsung panic. Akan lebih baik jika error ditangani dengan lebih jelas, misalnya dengan menampilkan pesan bahwa RabbitMQ belum aktif atau koneksi tidak berhasil.
 
 Secara keseluruhan, percobaan ini menunjukkan bahwa RabbitMQ dapat membagi message ke beberapa subscriber dan membantu proses komunikasi asynchronous antar komponen. Dengan menjalankan minimal tiga subscriber, pemrosesan message menjadi lebih cepat dan queue tidak menumpuk terlalu lama.
+
+## Bonus: Running RabbitMQ on Cloud using Railway
+![RabbitMQ di Railway](image-3.png)
+
+Pada bagian bonus ini, RabbitMQ tidak dijalankan di local machine menggunakan Docker Desktop, tetapi dijalankan di cloud menggunakan Railway. Publisher dan subscriber tetap dijalankan dari WSL di komputer lokal, tetapi keduanya terhubung ke RabbitMQ yang berjalan di Railway melalui koneksi AMQP.
+
+Di sisi terminal, subscriber berhasil menerima beberapa `UserCreatedEventMessage` yang dikirim oleh publisher. Message yang diterima berisi beberapa data user seperti Amir, Budi, Cica, Dira, dan Emir. Ini membuktikan bahwa publisher berhasil mengirim message ke RabbitMQ di Railway, lalu subscriber berhasil mengambil dan memproses message tersebut dari queue.
+
+Pada dashboard RabbitMQ juga terlihat terdapat `Connections: 1` dan `Queues: 2`. Jumlah connection menunjukkan bahwa ada aplikasi yang sedang terhubung ke RabbitMQ, yaitu subscriber yang masih berjalan dan mendengarkan message. Sementara itu, queue terbentuk karena subscriber membuat queue untuk menerima message dari publisher. Setelah publisher dijalankan, message langsung diterima oleh subscriber, sehingga tidak terlihat penumpukan message yang lama pada queue.
+
+Dari percobaan ini, saya memahami bahwa message broker tidak harus berjalan di mesin yang sama dengan publisher dan subscriber. RabbitMQ dapat dijalankan di cloud, sedangkan publisher dan subscriber dapat berjalan dari komputer lokal selama connection string diarahkan ke alamat broker yang benar. Dengan pendekatan ini, arsitektur menjadi lebih fleksibel karena setiap komponen dapat berjalan di environment yang berbeda.
